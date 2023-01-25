@@ -2,8 +2,10 @@ var generatedCode = "";
 var classNameCode = {};
 var classVariables = {};
 var variableName = "";
+var amtVars = 0;
 
 document.getElementById("create-box").addEventListener("click", function() {
+  amtVars = 0;
   var methodCount = 0;
   let box = document.createElement("div");
   box.classList.add("box");
@@ -94,7 +96,13 @@ document.getElementById("create-box").addEventListener("click", function() {
     });
 
     varTypeBtn.addEventListener('click', function() {
-      classNameCode[classTitle.value] += `\n\t${varType.value} ${variableName};\n`;
+      if(amtVars === 0){
+          classNameCode[classTitle.value] += `\n\tprivate: \n\t\t${varType.value} ${variableName};\n`;
+        amtVars++;
+      } else{
+        classNameCode[classTitle.value] += `\n\t\t${varType.value} ${variableName};\n`;
+      }
+
     });
   });
   createSubclassButton.addEventListener("click", function() {
@@ -139,8 +147,10 @@ document.getElementById("create-box").addEventListener("click", function() {
       if (methodCount === 0) {
         classNameCode[classTitle.value] += `\tpublic:\n\t\t${returnType.value} ${methodTitle.value}() {\n\n\t\t}`;
         methodCount++;
+        amtVars = 0;
       } else {
         classNameCode[classTitle.value] += `\n\t\t${returnType.value} ${methodTitle.value}() {\n\n\t\t}`;
+        amtVars = 0;
       }
     });
   });
