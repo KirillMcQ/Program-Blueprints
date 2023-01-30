@@ -28,7 +28,6 @@ document.getElementById("create-box").addEventListener("click", function() {
   createInstanceVariable.innerHTML = "Add instance variable";
   box.appendChild(createInstanceVariable);
 
-  // Enable resizing and dragging
   box.addEventListener("mousedown", startDrag);
   box.addEventListener("mousemove", drag);
   box.addEventListener("mouseup", endDrag);
@@ -58,6 +57,7 @@ document.getElementById("create-box").addEventListener("click", function() {
 
 
   createInstanceVariable.addEventListener('click', function() {
+    methodCount = 0;
     let instanceVar = document.createElement('div');
     instanceVar.classList.add('instance-var');
     let instanceTitle = document.createElement('h2');
@@ -102,7 +102,6 @@ document.getElementById("create-box").addEventListener("click", function() {
       } else{
         classNameCode[classTitle.value] += `\n\t\t${varType.value} ${variableName};\n`;
       }
-
     });
   });
   createSubclassButton.addEventListener("click", function() {
@@ -139,7 +138,11 @@ document.getElementById("create-box").addEventListener("click", function() {
 
     methodTitleBtn.addEventListener('click', function() {
       console.log(methodTitle.value);
-      subTitle.innerText = `Method ${methodTitle.value}`;
+      if (methodTitle.value === classTitle.value){
+        subTitle.innerText = `Constructor for class ${classTitle.value}`;
+      }else{
+        subTitle.innerText = `Method ${methodTitle.value}`;
+      }
     });
 
     returnTypeBtn.addEventListener('click', function() {
