@@ -1,6 +1,20 @@
+/*
+By: Kirill McQuillin
+TODO:
+  1. See the struct button even handler for info (around line 187, give or take).
+IDEAS:
+  1. Implement system to check if any submissions are null. If so, display error message with drop down
+  2. When the user fist opens the site, show a modal that can only be closed once they select what language they want to generate in (C++ only for now, ideas for Java later).
+  3. Extending question 2, when the user picks a certain language to generate, update the site accordingly for that language. E.g. if Java is picked, remove the 'Create Struct' button.
+  4. Add a button to show a modal with instructions on how to use the website.
+  5. Connect each child to div to its parent by a dynamic line.
+*/
+
+
 var generatedCode = "";
 var classNameCode = {};
 var classVariables = {};
+var structNameCode = {};
 var variableName = "";
 var amtVars = 0;
 
@@ -96,10 +110,10 @@ document.getElementById("create-box").addEventListener("click", function() {
     });
 
     varTypeBtn.addEventListener('click', function() {
-      if(amtVars === 0){
-          classNameCode[classTitle.value] += `\n\tprivate: \n\t\t${varType.value} ${variableName};\n`;
+      if (amtVars === 0) {
+        classNameCode[classTitle.value] += `\n\tprivate: \n\t\t${varType.value} ${variableName};\n`;
         amtVars++;
-      } else{
+      } else {
         classNameCode[classTitle.value] += `\n\t\t${varType.value} ${variableName};\n`;
       }
     });
@@ -138,9 +152,9 @@ document.getElementById("create-box").addEventListener("click", function() {
 
     methodTitleBtn.addEventListener('click', function() {
       console.log(methodTitle.value);
-      if (methodTitle.value === classTitle.value){
+      if (methodTitle.value === classTitle.value) {
         subTitle.innerText = `Constructor for class ${classTitle.value}`;
-      }else{
+      } else {
         subTitle.innerText = `Method ${methodTitle.value}`;
       }
     });
@@ -166,6 +180,57 @@ document.getElementById("create-box").addEventListener("click", function() {
   });
 
 
+});
+
+var createStructBtn = document.getElementById('create-struct');
+
+createStructBtn.addEventListener('click', () => {
+  // TODO: allow user to add a new variable to a struct, as many as they want tand then add that to the hashmap and generate the code on modal open.
+  let structBox = document.createElement('div');
+  structBox.classList.add('structBox');
+  let structBoxTitle = document.createElement('h2');
+  structBoxTitle.classList.add('structBoxTitle');
+  structBoxTitle.innerText = 'Struct';
+  structBox.appendChild(structBoxTitle);
+  let structNameForm = document.createElement('input');
+  structNameForm.classList.add('structNameForm');
+  structBox.appendChild(structNameForm);
+  document.getElementById('box-container').appendChild(structBox);
+  let structNameBtn = document.createElement('button');
+  structNameBtn.innerText = "Set struct name";
+  structNameBtn.classList.add('structNameBtn');
+  structBox.appendChild(structNameBtn);
+
+  structBox.addEventListener("mousedown", startDrag);
+  structBox.addEventListener("mousemove", drag);
+  structBox.addEventListener("mouseup", endDrag);
+  structBox.addEventListener("mouseleave", endDrag);
+
+  let offset = [0, 0];
+  let isDown = false;
+
+  function startDrag(e) {
+    isDown = true;
+    offset = [
+      this.offsetLeft - e.clientX,
+      this.offsetTop - e.clientY
+    ];
+  }
+
+  function drag(e) {
+    if (!isDown) return;
+    e.preventDefault();
+    this.style.left = (e.clientX + offset[0]) + 'px';
+    this.style.top = (e.clientY + offset[1]) + 'px';
+  }
+
+  function endDrag(e) {
+    isDown = false;
+  }
+
+  structNameBtn.addEventListener('click', () => {
+    structBoxTitle.innerText = `Struct ${structNameForm.value}`;
+  });
 });
 
 
