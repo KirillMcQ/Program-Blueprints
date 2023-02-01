@@ -176,3 +176,17 @@ button:active{
     text-align: center;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+
+
+.structAtrBox {
+  width: 200px;
+  height: 200px;
+  background-color: #f1f1f1;
+  border: 1px solid #d3d3d3;
+  position: absolute;
+  z-index: 1;
+  border-radius: 5px;
+  text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+}

@@ -1,7 +1,7 @@
 /*
 By: Kirill McQuillin
 TODO:
-  1. See the struct button even handler for info (around line 187, give or take).
+  ---------------------
 IDEAS:
   1. Implement system to check if any submissions are null. If so, display error message with drop down
   2. When the user fist opens the site, show a modal that can only be closed once they select what language they want to generate in (C++ only for now, ideas for Java later).
@@ -185,7 +185,9 @@ document.getElementById("create-box").addEventListener("click", function() {
 var createStructBtn = document.getElementById('create-struct');
 
 createStructBtn.addEventListener('click', () => {
-  // TODO: allow user to add a new variable to a struct, as many as they want tand then add that to the hashmap and generate the code on modal open.
+  var nameCount = 0;
+  var dTypeCount = 0;
+  var amtStructMembers = 0;
   let structBox = document.createElement('div');
   structBox.classList.add('structBox');
   let structBoxTitle = document.createElement('h2');
@@ -200,6 +202,92 @@ createStructBtn.addEventListener('click', () => {
   structNameBtn.innerText = "Set struct name";
   structNameBtn.classList.add('structNameBtn');
   structBox.appendChild(structNameBtn);
+  // Create the attribute div for each var attr of the struct
+  let structAtrBtn = document.createElement('button');
+  structAtrBtn.innerText = "Add a struct member";
+  structBox.appendChild(structAtrBtn);
+
+  structNameBtn.addEventListener('click', () => {
+    structBoxTitle.innerText = `Struct ${structNameForm.value}`;
+  });
+
+  // When they create a new instance variable div
+  structAtrBtn.addEventListener('click', () => {
+    nameCount = 0;
+    let structAtrBox = document.createElement('div');
+    structAtrBox.classList.add('structAtrBox');
+    let structAtrBoxTitle = document.createElement('h2');
+    structAtrBoxTitle.innerText = "Member";
+    structAtrBox.appendChild(structAtrBoxTitle);
+    // Data Type
+    let memberDType = document.createElement('input');
+    memberDType.placeholder = 'Set member data type';
+    structAtrBox.appendChild(memberDType);
+    let memberDTypeSubmit = document.createElement('button');
+    memberDTypeSubmit.innerText = 'Set datatype';
+    structAtrBox.appendChild(memberDTypeSubmit);
+    // Name
+    let memberName = document.createElement('input');
+    memberName.placeholder = 'Set member name';
+    structAtrBox.appendChild(memberName);
+    let memberNameSubmit = document.createElement('button');
+    memberNameSubmit.innerText = 'Set name';
+    structAtrBox.appendChild(memberNameSubmit);
+
+    document.getElementById("box-container").appendChild(structAtrBox);
+
+    structAtrBox.style.left = structBox.offsetLeft + structBox.offsetWidth + 10 + 'px';
+    structAtrBox.style.top = structBox.offsetTop + 'px';
+
+    structAtrBox.addEventListener("mousedown", startDrag);
+    structAtrBox.addEventListener("mousemove", drag);
+    structAtrBox.addEventListener("mouseup", endDrag);
+    structAtrBox.addEventListener("mouseleave", endDrag);
+  
+    let offset = [0, 0];
+    let isDown = false;
+  
+    function startDrag(e) {
+      isDown = true;
+      offset = [
+        this.offsetLeft - e.clientX,
+        this.offsetTop - e.clientY
+      ];
+    }
+  
+    function drag(e) {
+      if (!isDown) return;
+      e.preventDefault();
+      this.style.left = (e.clientX + offset[0]) + 'px';
+      this.style.top = (e.clientY + offset[1]) + 'px';
+    }
+  
+    function endDrag(e) {
+      isDown = false;
+    }
+
+    // TODO: Add event handlers for both btn clicks
+    memberDTypeSubmit.addEventListener('click', () => {
+      console.log(`Data type: ${memberDType.value}`);
+    });
+
+    memberNameSubmit.addEventListener('click', () => {
+      if (nameCount === 0){
+        console.log(`Member ${memberName.value}`);
+        structAtrBoxTitle.innerText = `Member ${memberName.value}`;
+        nameCount++;
+      }
+
+      if (amtStructMembers === 0){
+        structNameCode[structNameForm.value] = `\nstruct {\n    ${memberDType.value} ${memberName.value};\n`;
+        amtStructMembers++;
+      } else {
+        structNameCode[structNameForm.value] += ` 
+    ${memberDType.value} ${memberName.value};\n`;
+      }
+      
+    });
+  });
 
   structBox.addEventListener("mousedown", startDrag);
   structBox.addEventListener("mousemove", drag);
@@ -227,10 +315,6 @@ createStructBtn.addEventListener('click', () => {
   function endDrag(e) {
     isDown = false;
   }
-
-  structNameBtn.addEventListener('click', () => {
-    structBoxTitle.innerText = `Struct ${structNameForm.value}`;
-  });
 });
 
 
@@ -246,17 +330,22 @@ btn.onclick = function() {
   modal.style.display = "block";
   modalContent.innerText = "";
   console.log(classNameCode);
-  if (Object.keys(classNameCode).length === 0) {
+  if (Object.keys(classNameCode).length === 0 && Object.keys(structNameCode).length === 0) {
     modalContent.innerText = "No Code Yet";
   }
+  
+  for (var i in structNameCode){
+    var codeForAppending = `${structNameCode[i]} \n}, ${i};\n`;
+    console.log(codeForAppending);
+    modalContent.innerText += codeForAppending;
+  }
+  
   for (var key in classNameCode) {
     var codeToAppend = `${classNameCode[key]} \n}`;
     console.log(codeToAppend);
     modalContent.innerText += codeToAppend;
   }
 }
-
-
 window.onclick = function(event) {
   if (event.target == modal) {
     modal.style.display = "none";
