@@ -4,8 +4,6 @@ TODO:
   -------------------------
 IDEAS:
   1. Implement system to check if any submissions are null. If so, display error message with drop down
-  2. When the user fist opens the site, show a modal that can only be closed once they select what language they want to generate in (C++ only for now, ideas for Java later).
-  3. Extending idea 2, when the user picks a certain language to generate, update the site accordingly for that language. E.g. if Java is picked, remove the 'Create Struct' button.
   4. Add a button to show a modal with instructions on how to use the website.
   5. Connect each child to div to its parent by a dynamic line.
   6. Allow the user to save the current configuration using cookies.
