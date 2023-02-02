@@ -11,15 +11,19 @@
     <div id="buttons">
         <button id="create-box">Create Class</button>
         <button id="create-struct">Create Struct</button>
-        <button id="myBtn">View Code (C++)</button>
+        <button id="myBtn">View Code</button>
+        <select name="language" id="language">
+          <option value="c++" id="OptionC">C++</option>
+          <option value="java">Java</option>
+        </select>
     </div>
+
     <div id="box-container"></div>
     <div id="struct-container"></div>
     <div id="myModal" class="modal">
     <div class="modal-content">
         <code></code>
     </div>
-
     </div>
     <script src="./functionality/main.js"></script>
 </body>

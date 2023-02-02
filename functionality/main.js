@@ -1,13 +1,14 @@
 /*
 By: Kirill McQuillin
 TODO:
-  ---------------------
+  -------------------------
 IDEAS:
   1. Implement system to check if any submissions are null. If so, display error message with drop down
   2. When the user fist opens the site, show a modal that can only be closed once they select what language they want to generate in (C++ only for now, ideas for Java later).
   3. Extending idea 2, when the user picks a certain language to generate, update the site accordingly for that language. E.g. if Java is picked, remove the 'Create Struct' button.
   4. Add a button to show a modal with instructions on how to use the website.
   5. Connect each child to div to its parent by a dynamic line.
+  6. Allow the user to save the current configuration using cookies.
 */
 
 
@@ -15,8 +16,13 @@ var generatedCode = "";
 var classNameCode = {};
 var classVariables = {};
 var structNameCode = {};
+var javaNameCode = {};
 var variableName = "";
 var amtVars = 0;
+
+// Checking selected language
+var dropDown = document.getElementById('language');
+console.log(dropDown.value);
 
 document.getElementById("create-box").addEventListener("click", function() {
   amtVars = 0;
@@ -112,9 +118,13 @@ document.getElementById("create-box").addEventListener("click", function() {
     varTypeBtn.addEventListener('click', function() {
       if (amtVars === 0) {
         classNameCode[classTitle.value] += `\n\tprivate: \n\t\t${varType.value} ${variableName};\n`;
+
+        javaNameCode[classTitle.value] += `\n    private ${varType.value} ${variableName};`;
+        console.log(javaNameCode[classTitle.value]);
         amtVars++;
       } else {
         classNameCode[classTitle.value] += `\n\t\t${varType.value} ${variableName};\n`;
+        javaNameCode[classTitle.value] += `\n    private ${varType.value} ${variableName};`;
       }
     });
   });
@@ -163,10 +173,14 @@ document.getElementById("create-box").addEventListener("click", function() {
       console.log(returnType.value);
       if (methodCount === 0) {
         classNameCode[classTitle.value] += `\tpublic:\n\t\t${returnType.value} ${methodTitle.value}() {\n\n\t\t}`;
+        javaNameCode[classTitle.value] += `\n    public ${returnType.value} ${methodTitle.value}(){\n\n}`;
+        console.log(javaNameCode[classTitle.value]);
         methodCount++;
         amtVars = 0;
       } else {
         classNameCode[classTitle.value] += `\n\t\t${returnType.value} ${methodTitle.value}() {\n\n\t\t}`;
+        javaNameCode[classTitle.value] += `\n    public ${returnType.value} ${methodTitle.value}(){\n\n    }`;
+        console.log(javaNameCode[classTitle.value]);
         amtVars = 0;
       }
     });
@@ -177,6 +191,7 @@ document.getElementById("create-box").addEventListener("click", function() {
     // generatedCode = `class ${classTitle.value} {\n\t`
     title.innerHTML = `Class ${classTitle.value}`;
     classNameCode[classTitle.value] = `\nclass ${classTitle.value} {\n`
+    javaNameCode[classTitle.value] = `\n public class ${classTitle.value} {\n`;
   });
 
 
@@ -330,21 +345,32 @@ btn.onclick = function() {
   modal.style.display = "block";
   modalContent.innerText = "";
   console.log(classNameCode);
-  if (Object.keys(classNameCode).length === 0 && Object.keys(structNameCode).length === 0) {
-    modalContent.innerText = "No Code Yet";
+  if (dropDown.value == "c++") {
+    if (Object.keys(classNameCode).length === 0 && Object.keys(structNameCode).length === 0) {
+      modalContent.innerText = "No Code Yet";
+    }
+    
+    for (var i in structNameCode){
+      var codeForAppending = `${structNameCode[i]} \n}, ${i};\n`;
+      console.log(codeForAppending);
+      modalContent.innerText += codeForAppending;
+    }
+    
+    for (var key in classNameCode) {
+      var codeToAppend = `${classNameCode[key]} \n}`;
+      console.log(codeToAppend);
+      modalContent.innerText += codeToAppend;
+    }
+  } else {
+    if (Object.keys(javaNameCode).length === 0) {
+      modalContent.innerText = "No Code Yet";
+    }
+    for (var key in javaNameCode) {
+      var code = `${javaNameCode[key]} \n}`;
+      modalContent.innerText += code;
+    }
   }
-  
-  for (var i in structNameCode){
-    var codeForAppending = `${structNameCode[i]} \n}, ${i};\n`;
-    console.log(codeForAppending);
-    modalContent.innerText += codeForAppending;
-  }
-  
-  for (var key in classNameCode) {
-    var codeToAppend = `${classNameCode[key]} \n}`;
-    console.log(codeToAppend);
-    modalContent.innerText += codeToAppend;
-  }
+
 }
 window.onclick = function(event) {
   if (event.target == modal) {
