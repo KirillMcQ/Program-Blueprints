@@ -1,7 +1,7 @@
 /*
 By: Kirill McQuillin
 TODO:
-  -------------------------
+  1. Fix the checkBox is not defined because of scope, need to fix ASAP.
 IDEAS:
   1. Implement system to check if any submissions are null. If so, display error message with drop down
   4. Add a button to show a modal with instructions on how to use the website.
@@ -17,6 +17,7 @@ var structNameCode = {};
 var javaNameCode = {};
 var variableName = "";
 var amtVars = 0;
+var classNames = [];
 
 // Checking selected language
 var dropDown = document.getElementById('language');
@@ -45,6 +46,33 @@ document.getElementById("create-box").addEventListener("click", function() {
   createInstanceVariable.classList.add('add-variable');
   createInstanceVariable.innerHTML = "Add instance variable";
   box.appendChild(createInstanceVariable);
+
+  let lineBreak = document.createElement('br');
+  let lineBreak2 = document.createElement('br');
+  box.appendChild(lineBreak2);
+  let checkBox = document.createElement('input');
+  checkBox.name = "checkBox";
+  checkBox.id = "checkBox;"
+  checkBox.type = "checkbox";
+  let labelForBox = document.createElement('label');
+  labelForBox.innerText = "Extend class: ";
+  labelForBox.for = "checkBox";
+  if (classNames.length > 0) {
+    box.appendChild(labelForBox);
+    box.appendChild(checkBox);
+  }
+  
+  box.appendChild(lineBreak);
+  let extendDropdown = document.createElement('select');
+  if (classNames.length > 0) {
+    console.log("Pick to extend");
+    for (let i = 0; i < classNames.length; i++) {
+      let newOption = document.createElement('option');
+      newOption.text = classNames[i];
+      extendDropdown.add(newOption);
+    }
+    box.appendChild(extendDropdown);
+  }
 
   box.addEventListener("mousedown", startDrag);
   box.addEventListener("mousemove", drag);
@@ -187,9 +215,18 @@ document.getElementById("create-box").addEventListener("click", function() {
   classTitleBtn.addEventListener("click", function() {
     console.log(classTitle.value);
     // generatedCode = `class ${classTitle.value} {\n\t`
-    title.innerHTML = `Class ${classTitle.value}`;
-    classNameCode[classTitle.value] = `\nclass ${classTitle.value} {\n`
-    javaNameCode[classTitle.value] = `\n public class ${classTitle.value} {\n`;
+    if (checkBox.checked) {
+      title.innerHTML = `Class ${classTitle.value} extends ${extendDropdown.value}`;
+      classNameCode[classTitle.value] = `\nclass ${classTitle.value} : public ${extendDropdown.value} {\n`;
+      javaNameCode[classTitle.value] = `\n public class ${classTitle.value} extends ${extendDropdown.value}{\n`;
+    } else {
+      title.innerHTML = `Class ${classTitle.value}`;
+      classNames.push(classTitle.value);
+      console.log(classNames);
+      classNameCode[classTitle.value] = `\nclass ${classTitle.value} {\n`;
+      javaNameCode[classTitle.value] = `\n public class ${classTitle.value} {\n`;
+    }
+
   });
 
 
