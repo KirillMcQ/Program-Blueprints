@@ -1,7 +1,7 @@
 /*
 By: Kirill McQuillin
 TODO:
-  1. Fix the checkBox is not defined because of scope, need to fix ASAP.
+  ---------------------------------
 IDEAS:
   1. Implement system to check if any submissions are null. If so, display error message with drop down
   4. Add a button to show a modal with instructions on how to use the website.
