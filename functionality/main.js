@@ -4,9 +4,8 @@ TODO:
   ---------------------------------
 IDEAS:
   1. Implement system to check if any submissions are null. If so, display error message with drop down
-  4. Add a button to show a modal with instructions on how to use the website.
-  5. Connect each child to div to its parent by a dynamic line.
-  6. Allow the user to save the current configuration using cookies.
+  2. Connect each child to div to its parent by a dynamic line.
+  3. Allow the user to save the current configuration using cookies.
 */
 
 const modalFirst = document.querySelector(".modalFirst");
