@@ -9,6 +9,29 @@ IDEAS:
   6. Allow the user to save the current configuration using cookies.
 */
 
+const modalFirst = document.querySelector(".modalFirst");
+const closeButton = document.querySelector(".close-button");
+
+function toggleModal() {
+    modalFirst.classList.toggle("show-modal");
+}
+
+function windowOnClick(event) {
+    if (event.target === modalFirst) {
+        toggleModal();
+    }
+}
+
+
+
+// **************Showing instruction modal if user is first time visiting***********************
+if (! localStorage.noFirstVisit) {
+  modalFirst.classList.add("show-modal");
+  closeButton.addEventListener("click", toggleModal);
+  window.addEventListener("click", windowOnClick);
+  localStorage.noFirstVisit = "1";
+}
+//*****************END VISIT CHECK**************
 
 var generatedCode = "";
 var classNameCode = {};
@@ -216,15 +239,25 @@ document.getElementById("create-box").addEventListener("click", function() {
     console.log(classTitle.value);
     // generatedCode = `class ${classTitle.value} {\n\t`
     if (checkBox.checked) {
-      title.innerHTML = `Class ${classTitle.value} extends ${extendDropdown.value}`;
-      classNameCode[classTitle.value] = `\nclass ${classTitle.value} : public ${extendDropdown.value} {\n`;
-      javaNameCode[classTitle.value] = `\n public class ${classTitle.value} extends ${extendDropdown.value}{\n`;
+      if (!classTitle.value){
+        alert("Class Title cannot be null!");
+      }else {
+        title.innerHTML = `Class ${classTitle.value} extends ${extendDropdown.value}`;
+        classNameCode[classTitle.value] = `\nclass ${classTitle.value} : public ${extendDropdown.value} {\n`;
+        javaNameCode[classTitle.value] = `\n public class ${classTitle.value} extends ${extendDropdown.value}{\n`;
+      }
+
     } else {
-      title.innerHTML = `Class ${classTitle.value}`;
-      classNames.push(classTitle.value);
-      console.log(classNames);
-      classNameCode[classTitle.value] = `\nclass ${classTitle.value} {\n`;
-      javaNameCode[classTitle.value] = `\n public class ${classTitle.value} {\n`;
+      if (!classTitle.value){
+        alert("Class Title cannot be null!");
+      } else {
+        title.innerHTML = `Class ${classTitle.value}`;
+        classNames.push(classTitle.value);
+        console.log(classNames);
+        classNameCode[classTitle.value] = `\nclass ${classTitle.value} {\n`;
+        javaNameCode[classTitle.value] = `\n public class ${classTitle.value} {\n`;      
+      }
+
     }
 
   });
