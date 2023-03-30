@@ -221,7 +221,7 @@ document.getElementById("create-box").addEventListener("click", function() {
       console.log(returnType.value);
       if (methodCount === 0) {
         classNameCode[classTitle.value] += `\tpublic:\n\t\t${returnType.value} ${methodTitle.value}() {\n\n\t\t}`;
-        javaNameCode[classTitle.value] += `\n    public ${returnType.value} ${methodTitle.value}(){\n\n}`;
+        javaNameCode[classTitle.value] += `\n    public ${returnType.value} ${methodTitle.value}() {\n\n\t}`;
         console.log(javaNameCode[classTitle.value]);
         methodCount++;
         amtVars = 0;
