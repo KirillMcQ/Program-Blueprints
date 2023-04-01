@@ -53,7 +53,24 @@ body {
 }
 
 #create-box:active{
-    cursor:pointer
+    cursor:pointer;
+}
+
+#past-code {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    border-radius: 5px;
+    border: none;
+    color: white;
+}
+
+#past-code:hover {
+    background-color: #5dc861;
+    cursor: pointer;
+}
+
+#past-code:active {
+    cursor:pointer;
 }
 
 
@@ -71,7 +88,7 @@ body {
 }
 
 #create-struct:active{
-    cursor:pointer
+    cursor:pointer;
 }
   
 .box {
@@ -235,3 +252,84 @@ button:active{
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+
+
+
+.modalPast {
+    display: none;
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4); 
+  }
+  
+  .modal-past-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+  }
+  
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .innerModalContent {
+    margin: 0;
+    white-space: pre;
+    padding: 0;
+  }
+
+#saveCode{
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#saveCode:hover{
+    background-color: #5dc861;
+    cursor: pointer;
+}
+
+#saveCode:active{
+    cursor:pointer
+}
+
+
+
+#resetSavedCode{
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#resetSavedCode:hover{
+    background-color: #5dc861;
+    cursor: pointer;
+}
+
+#resetSavedCode:active{
+    cursor:pointer
+}

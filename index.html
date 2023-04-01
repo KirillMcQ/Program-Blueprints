@@ -12,6 +12,9 @@
         <button id="create-box">Create Class</button>
         <button id="create-struct">Create Struct</button>
         <button id="myBtn">View Code</button>
+        <button id="saveCode">Save current code</button>
+        <button id="resetSavedCode">Clear all saved code</button>
+        <button id="past-code">View Past Code</button>
         <select name="language" id="language">
           <option value="c++" id="OptionC">C++</option>
           <option value="java">Java</option>
@@ -38,6 +41,16 @@
         <code></code>
     </div>
     </div>
+
+    <div id="myModalPastCode" class="modalPast">
+      <div class="modal-past-content">
+        <span class="close">&times;</span>
+        <div class="innerModalContent">
+          
+        </div>
+      </div>
+    </div>
+
     <script src="./functionality/main.js"></script>
 </body>
 </html>

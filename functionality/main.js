@@ -1,12 +1,17 @@
 /*
 By: Kirill McQuillin
 TODO:
-  ---------------------------------
+  1. Finish past code feature
 IDEAS:
   1. Implement system to check if any submissions are null. If so, display error message with drop down
   2. Connect each child to div to its parent by a dynamic line.
   3. Allow the user to save the current configuration using cookies.
 */
+
+
+console.log(JSON.parse(localStorage.getItem("pastCode")));
+
+const saveCodeBtn = document.getElementById("saveCode");
 
 const modalFirst = document.querySelector(".modalFirst");
 const closeButton = document.querySelector(".close-button");
@@ -21,7 +26,11 @@ function windowOnClick(event) {
     }
 }
 
-
+// init localstorage pastcode aray if doesnt exist already
+if (! localStorage.getItem("pastCode")) {
+  var pastCodeArr = [];
+  localStorage.setItem("pastCode", JSON.stringify(pastCodeArr));
+}
 
 // **************Showing instruction modal if user is first time visiting***********************
 if (! localStorage.noFirstVisit) {
@@ -31,6 +40,47 @@ if (! localStorage.noFirstVisit) {
   localStorage.noFirstVisit = "1";
 }
 //*****************END VISIT CHECK**************
+
+var clearSavedCode = document.getElementById("resetSavedCode");
+clearSavedCode.addEventListener('click', () => {
+  var pastCodeArr = [];
+  localStorage.setItem("pastCode", JSON.stringify(pastCodeArr));
+});
+
+// Past Code Modal
+var modalPast = document.getElementById("myModalPastCode");
+
+var btn = document.getElementById("past-code");
+
+var span = document.getElementsByClassName("close")[0];
+
+var modalPastContent = document.querySelector(".modal-past-content");
+
+var innerCodeContent = document.querySelector(".innerModalContent");
+
+btn.onclick = function() {
+  modalPast.style.display = "block";
+  if (JSON.parse(localStorage.getItem("pastCode")).length == 0){
+    innerCodeContent.innerHTML = "No past code found.";
+  } else {
+    innerCodeContent.innerText="";
+    var pCodeArr = JSON.parse(localStorage.getItem("pastCode"));
+    for (var j in pCodeArr) {
+      innerCodeContent.innerText += pCodeArr[j];
+      console.log(pCodeArr[j]);
+    }
+  }
+}
+
+span.onclick = function() {
+  modalPast.style.display = "none";
+}
+
+window.onclick = function(event) {
+  if (event.target == modalPast) {
+    modalPast.style.display = "none";
+  }
+}
 
 var generatedCode = "";
 var classNameCode = {};
@@ -407,6 +457,8 @@ var btn = document.getElementById("myBtn");
 
 var modalContent = document.querySelector('.modal-content');
 
+var forPastCode = "";
+
 
 btn.onclick = function() {
   modal.style.display = "block";
@@ -421,12 +473,15 @@ btn.onclick = function() {
       var codeForAppending = `${structNameCode[i]} \n}, ${i};\n`;
       console.log(codeForAppending);
       modalContent.innerText += codeForAppending;
+      forPastCode += codeForAppending;
     }
     
     for (var key in classNameCode) {
       var codeToAppend = `${classNameCode[key]} \n}`;
       console.log(codeToAppend);
       modalContent.innerText += codeToAppend;
+      forPastCode += codeToAppend;
+      console.log(codeToAppend);
     }
   } else {
     if (Object.keys(javaNameCode).length === 0) {
@@ -435,8 +490,10 @@ btn.onclick = function() {
     for (var key in javaNameCode) {
       var code = `${javaNameCode[key]} \n}`;
       modalContent.innerText += code;
+      forPastCode += code;
     }
   }
+
 
 }
 window.onclick = function(event) {
@@ -444,3 +501,16 @@ window.onclick = function(event) {
     modal.style.display = "none";
   }
 }
+
+
+saveCodeBtn.addEventListener('click', () => {
+  if (Object.keys(classNameCode).length === 0 && Object.keys(structNameCode).length === 0){
+    alert("Not saving code, no code to be saved!");
+  } else {
+    var pastCodeItems = JSON.parse(localStorage.getItem("pastCode"));
+    pastCodeItems.push(forPastCode);
+    localStorage.setItem("pastCode", JSON.stringify(pastCodeItems));
+    console.log(pastCodeItems);
+    alert("Code Saved!");
+  }
+});
