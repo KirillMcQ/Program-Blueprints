@@ -1,11 +1,9 @@
 /*
 By: Kirill McQuillin
 TODO:
-  1. Finish past code feature
+  ------------------------------
 IDEAS:
-  1. Implement system to check if any submissions are null. If so, display error message with drop down
-  2. Connect each child to div to its parent by a dynamic line.
-  3. Allow the user to save the current configuration using cookies.
+  1. Make a page to be able to run all of the user's saved codes by redirecting to a c++ compiler with their code embedded in that compiler page.
 */
 
 
