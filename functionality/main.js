@@ -64,8 +64,11 @@ btn.onclick = function() {
     innerCodeContent.innerText="";
     var pCodeArr = JSON.parse(localStorage.getItem("pastCode"));
     for (var j in pCodeArr) {
+      innerCodeContent.innerText+=`\n\n--------Start of code section--------\n\n`;
       innerCodeContent.innerText += pCodeArr[j];
       console.log(pCodeArr[j]);
+      var hr = document.createElement('hr');
+      innerCodeContent.innerText+=`\n\n--------End of code section--------\n\n\n`;
     }
   }
 }
