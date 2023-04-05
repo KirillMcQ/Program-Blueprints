@@ -1,10 +1,29 @@
 /*
 By: Kirill McQuillin
 TODO:
-  ------------------------------
+  1. Why don't any of the buttons work when I un-comment the view blocks code in HTML and JS files??
+  2. Finish the View Blocks Div. Should show each block.
 IDEAS:
   1. Make a page to be able to run all of the user's saved codes by redirecting to a c++ compiler with their code embedded in that compiler page.
 */
+
+// const viewBlocksBtn = document.querySelector(".btn");
+// const viewBlocksDiv = document.querySelector(".viewBlocks");
+
+// var didClick = 0;
+
+// viewBlocksBtn.addEventListener('click', () => {
+//   // I'm sorry.
+//   if (didClick == 0){
+//     viewBlocksBtn.style.right = "260px";
+//     viewBlocksDiv.style.display = "block";
+//     didClick = 1;
+//   } else {
+//     viewBlocksBtn.style.right = "0px";
+//     viewBlocksDiv.style.display = "none";
+//     didClick = 0;
+//   }
+// });
 
 
 console.log(JSON.parse(localStorage.getItem("pastCode")));
