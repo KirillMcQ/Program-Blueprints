@@ -234,6 +234,7 @@ document.getElementById("create-box").addEventListener("click", function() {
     });
 
     varTypeBtn.addEventListener('click', function() {
+      instanceTitle.innerText = `${varType.value} Variable ${variableName}`;
       if (amtVars === 0) {
         classNameCode[classTitle.value] += `\n\tprivate: \n\t\t${varType.value} ${variableName};\n`;
 
