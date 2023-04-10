@@ -419,7 +419,6 @@ createStructBtn.addEventListener('click', () => {
       isDown = false;
     }
 
-    // TODO: Add event handlers for both btn clicks
     memberDTypeSubmit.addEventListener('click', () => {
       console.log(`Data type: ${memberDType.value}`);
     });
